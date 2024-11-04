@@ -1,0 +1,14 @@
+[dependencies]
+
+[package]
+  cjc-version = "0.56.4"
+  compile-option = ""
+  description = "A Commander for modern Cangjie CLI interactions."
+  link-option = ""
+  name = "wukong"
+  output-type = "executable"
+  override-compile-option = ""
+  src-dir = ""
+  target-dir = ""
+  version = "1.0.0"
+  package-configuration = {}
