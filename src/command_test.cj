@@ -24,20 +24,21 @@
 
 package wukong
 
-import std.unittest.testmacro.*
+import std.unittest.mock.*
+import std.collection.*
 
 @Test
 public class CommandTest {
     @TestCase
     public func testGroup() {
-        let command = WKCommand("test")
+        let command = Command("test")
         let group = Group("test", "test")
         let group2 = Group("test2", "test2")
 
         command.addGroup(group)
         command.addGroup(group2)
 
-        @Assert(command.use, "test")
+        @Assert(command.getUse(), "test")
         @Assert(command.getCommandGroups().size, 2)
         @Assert(command.getCommandGroups()[0].ID, "test")
         @Assert(command.getCommandGroups()[1].Title, "test2")
@@ -48,4 +49,13 @@ public class CommandTest {
             command.addGroup(group3)
         })
     }
+
+
+    @TestCase
+    public func testCommandArgs() {
+        let command = CommandBuilder("test").build()
+        command.setArgs(ArrayList<String>(["test", "test2"]))
+        command.execute();
+    }
+
 }

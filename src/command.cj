@@ -25,16 +25,29 @@
 package wukong
 
 import std.collection.*
+import std.os.*
 
-public class WKCommand {
+public class Command {
 
-    public let use: String;
+    private var use: String
 
-    private let commandGroups: ArrayList<Group> = ArrayList<Group>();
+    private let commandGroups: ArrayList<Group> = ArrayList<Group>()
+    
+    private let subCommands: ArrayList<Command> = ArrayList<Command>()
 
+    private let args: ArrayList<String> = ArrayList<String>()
+
+    private var run: (cmd: Command, args: ArrayList<String>) -> Unit
 
     public init(use: String) {
         this.use = use;
+        func defaultRun(cmd: Command, args: ArrayList<String>) {
+        }
+        this.run = defaultRun
+    }
+
+    public func getUse(): String {
+        return use
     }
 
 
@@ -49,5 +62,38 @@ public class WKCommand {
 
     public func getCommandGroups(): ArrayList<Group> {
         return commandGroups
+    }
+
+    public func addCommand(commands: ArrayList<Command>) {
+        for (command in commands) {
+            this.subCommands.append(command)
+        }
+    }
+
+    protected func setArgs(args: ArrayList<String>) {
+        this.args.clear();
+        this.args.appendAll(args)
+    }
+
+    protected func setRun(run: (cmd: Command, args: ArrayList<String>) -> Unit) {
+        this.run = run
+    }
+
+
+    public func execute() {
+        if (args.size == 0) {
+            this.args.appendAll(ArrayList<String>(getArgs()))
+        }
+        println(args)
+
+        println(args.size)
+
+        println(args)
+
+        println(args)
+
+        run(this, args)
+
+        return args
     }
 }
